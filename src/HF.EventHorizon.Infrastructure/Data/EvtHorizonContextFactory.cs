@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
@@ -17,8 +17,20 @@ public class EvtHorizonContextFactory : IDesignTimeDbContextFactory<EvtHorizonCo
             .Build();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
+        var dbType = configuration.GetValue<string>("DatabaseType");
 
-        optionsBuilder.UseSqlServer(connectionString, b => b.MigrationsAssembly("HF.EventHorizon.Infrastructure"));
+        switch (dbType)
+        {
+            case "MySQL":
+                optionsBuilder.UseMySQL(connectionString, b => b.MigrationsAssembly("HF.EventHorizon.Infrastructure"));
+                break;
+            case "PostgreSQL":
+                optionsBuilder.UseNpgsql(connectionString, b => b.MigrationsAssembly("HF.EventHorizon.Infrastructure"));
+                break;
+            default:
+                optionsBuilder.UseSqlServer(connectionString, b => b.MigrationsAssembly("HF.EventHorizon.Infrastructure"));
+                break;
+        }
 
         return new EvtHorizonContext(optionsBuilder.Options);
     }
