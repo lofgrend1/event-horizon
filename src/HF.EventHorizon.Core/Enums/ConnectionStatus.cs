@@ -1,4 +1,4 @@
-﻿namespace HF.EventHorizon.App.Models;
+﻿namespace HF.EventHorizon.Core.Enums;
 
 public enum ConnectionStatus
 {

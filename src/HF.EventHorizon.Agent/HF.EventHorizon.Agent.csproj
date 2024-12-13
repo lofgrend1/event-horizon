@@ -26,10 +26,15 @@
     <PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="8.3.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Serilog" Version="4.1.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\HF.EventHorizon.App\HF.EventHorizon.App.csproj" />
+    <ProjectReference Include="..\HF.EventBus\HF.EventBus.csproj" />
   </ItemGroup>
 
 </Project>

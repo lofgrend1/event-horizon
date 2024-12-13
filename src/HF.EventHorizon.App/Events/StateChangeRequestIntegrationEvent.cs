@@ -1,5 +1,5 @@
 ﻿using HF.EventBus.Events;
-using HF.EventHorizon.App.Models;
+using HF.EventHorizon.Core.Enums;
 
 namespace HF.EventHorizon.App.Events;
 

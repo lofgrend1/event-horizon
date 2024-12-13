@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Newtonsoft.Json;
+
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
+
+using HF.EventHorizon.App;
 
 namespace HF.EventHorizon.Agent;
 
@@ -34,8 +36,8 @@ internal class Program
             })
             .ConfigureServices((hostContext, services) =>
             {
-                //services.AddClientSettings(hostContext.Configuration);
-                //services.AddEventBus(hostContext.Configuration);
+                services.AddClientSettings(hostContext.Configuration);
+                services.AddEventBus(hostContext.Configuration);
 
                 //services.AddTransient<IPrintJobRequestedHandler, PrintJobRequestedHandler>();
                 //services.AddSingleton<IPrinterService, PrinterService>();

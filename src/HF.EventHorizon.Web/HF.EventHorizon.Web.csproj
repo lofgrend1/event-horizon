@@ -13,6 +13,16 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10" />
+    <PackageReference Include="Serilog" Version="4.1.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HF.EventBus\HF.EventBus.csproj" />
+    <ProjectReference Include="..\HF.EventHorizon.App\HF.EventHorizon.App.csproj" />
+    <ProjectReference Include="..\HF.EventHorizon.Infrastructure\HF.EventHorizon.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

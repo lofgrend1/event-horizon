@@ -1,4 +1,4 @@
-﻿namespace HF.EventHorizon.App.Models;
+﻿namespace HF.EventHorizon.Core.Events;
 
 /// <summary>
 /// Event arguments for an error event. This class contains the error message, the time when the error occurred and additional details.

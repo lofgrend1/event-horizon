@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using HF.EventHorizon.App.Models;
 using HF.EventHorizon.Core.Interfaces;
 using HF.EventHorizon.Core.Entities;
+using HF.EventHorizon.Core.Events;
 
 namespace HF.EventHorizon.App.Services;
 

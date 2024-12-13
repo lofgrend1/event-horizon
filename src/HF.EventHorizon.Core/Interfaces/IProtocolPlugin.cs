@@ -1,4 +1,4 @@
-﻿using HF.EventHorizon.App.Models;
+﻿using HF.EventHorizon.Core.Events;
 
 namespace HF.EventHorizon.Core.Interfaces;
 

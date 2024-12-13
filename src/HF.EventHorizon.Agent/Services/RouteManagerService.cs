@@ -6,12 +6,14 @@ using Microsoft.Extensions.Logging;
 
 using HF.EventHorizon.App.Interfaces;
 using HF.EventHorizon.App.Settings;
-using HF.EventHorizon.App.Models;
 using HF.EventHorizon.App.Events;
 using HF.EventHorizon.App.Services;
 using HF.EventHorizon.Core.Entities;
 using HF.EventHorizon.Core.Interfaces;
 using HF.EventBus.Abstractions;
+using HF.EventHorizon.Core.Enums;
+using HF.EventHorizon.App.Helpers;
+using HF.EventHorizon.Core.Events;
 
 namespace HF.EventHorizon.Agent.Services;
 

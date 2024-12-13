@@ -1,4 +1,4 @@
-﻿namespace HF.EventHorizon.App.Models;
+﻿namespace HF.EventHorizon.Core.Events;
 
 /// <summary>
 /// Event arguments for the DataReceived event. This class contains the data received, the address from which the data originated, and the time when the data was received.

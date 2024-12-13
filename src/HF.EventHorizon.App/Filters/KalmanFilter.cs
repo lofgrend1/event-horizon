@@ -1,5 +1,5 @@
 ﻿using HF.EventHorizon.App.Interfaces;
-using HF.EventHorizon.App.Models;
+using HF.EventHorizon.Core.Events;
 
 namespace HF.EventHorizon.App.Filters;
 

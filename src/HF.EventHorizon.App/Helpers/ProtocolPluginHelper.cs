@@ -1,8 +1,7 @@
 ﻿using System.Reflection;
-
 using HF.EventHorizon.Core.Interfaces;
 
-namespace HF.EventHorizon.App.Models;
+namespace HF.EventHorizon.App.Helpers;
 
 public static class ProtocolPluginHelper
 {

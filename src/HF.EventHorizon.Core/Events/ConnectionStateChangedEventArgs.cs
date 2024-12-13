@@ -1,4 +1,6 @@
-﻿namespace HF.EventHorizon.App.Models;
+﻿using HF.EventHorizon.Core.Enums;
+
+namespace HF.EventHorizon.Core.Events;
 
 /// <summary>
 /// Event arguments for the ConnectionStateChanged event.
