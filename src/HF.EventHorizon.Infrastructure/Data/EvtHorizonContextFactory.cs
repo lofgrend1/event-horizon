@@ -17,18 +17,18 @@ public class EvtHorizonContextFactory : IDesignTimeDbContextFactory<EvtHorizonCo
             .Build();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        var dbType = configuration.GetValue<string>("DatabaseType");
+        var dbType = configuration.GetSection("DatabaseType").Value; // Fix for CS1061
 
         switch (dbType)
         {
             case "MySQL":
-                optionsBuilder.UseMySQL(connectionString, b => b.MigrationsAssembly("HF.EventHorizon.Infrastructure"));
+                optionsBuilder.UseMySQL(connectionString ?? throw new ArgumentNullException(nameof(connectionString)), b => b.MigrationsAssembly("HF.EventHorizon.Infrastructure")); // Fix for CS8604
                 break;
             case "PostgreSQL":
-                optionsBuilder.UseNpgsql(connectionString, b => b.MigrationsAssembly("HF.EventHorizon.Infrastructure"));
+                optionsBuilder.UseNpgsql(connectionString ?? throw new ArgumentNullException(nameof(connectionString)), b => b.MigrationsAssembly("HF.EventHorizon.Infrastructure")); // Fix for CS8604
                 break;
             default:
-                optionsBuilder.UseSqlServer(connectionString, b => b.MigrationsAssembly("HF.EventHorizon.Infrastructure"));
+                optionsBuilder.UseSqlServer(connectionString ?? throw new ArgumentNullException(nameof(connectionString)), b => b.MigrationsAssembly("HF.EventHorizon.Infrastructure")); // Fix for CS8604
                 break;
         }
 
