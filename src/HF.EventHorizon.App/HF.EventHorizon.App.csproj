@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstracts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HF.Common\HF.Common.csproj" />
+    <ProjectReference Include="..\HF.EventBus\HF.EventBus.csproj" />
+    <ProjectReference Include="..\HF.EventHorizon.Core\HF.EventHorizon.Core.csproj" />
+    <ProjectReference Include="..\HF.EventHorizon.Infrastructure\HF.EventHorizon.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
