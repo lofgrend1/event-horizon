@@ -31,7 +31,7 @@ public class DestinationMap : BaseEntity
     /// Gets the IDestination instance representing the destination of the map.
     /// </summary>
     [NotMapped]
-    public IDestination Destination { get; set; }
+    public IDestination? Destination { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the DestinationMap class with the provided protocol id and address.
@@ -44,7 +44,6 @@ public class DestinationMap : BaseEntity
         Address = address;
         ProtocolConnection = new ProtocolConnection(); // Initialize with a default value
         RoutingRule = new RoutingRule(); // Initialize with a default value
-        Destination = new DefaultDestination(); // Initialize with a default value
     }
 
     /// <summary>
