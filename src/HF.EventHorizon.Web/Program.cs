@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 using Serilog;
 
 using HF.EventHorizon.Infrastructure.Data;
 using HF.EventHorizon.Web.Data;
 using HF.EventHorizon.App;
-using MySql.EntityFrameworkCore.Extensions;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace HF.EventHorizon.Web;
 
@@ -17,7 +16,7 @@ public class Program
         // Configure Serilog
         Log.Logger = new LoggerConfiguration()
             .WriteTo.File(
-                path: "Logs/log-.txt",
+                path: "Logs/log-.log",
                 rollingInterval: RollingInterval.Day,
                 retainedFileCountLimit: 30)
             .CreateLogger();
