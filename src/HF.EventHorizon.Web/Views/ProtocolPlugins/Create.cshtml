@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Create</h1>
@@ -59,6 +58,75 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<!-- Modal for creating a new ProtocolPlugin -->
+<div class="modal fade" id="createProtocolPluginModal" tabindex="-1" aria-labelledby="createProtocolPluginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createProtocolPluginModalLabel">Create Protocol Plugin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="createProtocolPluginModalBody">
+                <!-- Content will be loaded here via AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            // Open the modal and load the content via AJAX
+            $('#openCreateProtocolPluginModal').click(function () {
+                $.ajax({
+                    url: '@Url.Action("Create", "ProtocolPlugins")',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#createProtocolPluginModalBody').html(data);
+                        $('#createProtocolPluginModal').modal('show');
+                    }
+                });
+            });
+
+            // Handle form submission inside the modal
+            $(document).on('submit', '#createProtocolPluginModal form', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    url: form.attr('action'),
+                    type: form.attr('method'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        if ($(response).find('.validation-summary-errors').length === 0) {
+                            $('#createProtocolPluginModal').modal('hide');
+                            refreshProtocolPluginDropdown();
+                        } else {
+                            $('#createProtocolPluginModalBody').html(response);
+                        }
+                    }
+                });
+            });
+
+            // Refresh the ProtocolPluginId dropdown list
+            function refreshProtocolPluginDropdown() {
+                $.ajax({
+                    url: '@Url.Action("GetProtocolPlugins", "ProtocolConnections")',
+                    type: 'GET',
+                    success: function (data) {
+                        var dropdown = $('#ProtocolPluginId');
+                        dropdown.empty();
+                        $.each(data, function (i, item) {
+                            dropdown.append($('<option>', {
+                                value: item.value,
+                                text: item.text
+                            }));
+                        });
+                    }
+                });
+            }
+        });
+    </script>
 }
+
+

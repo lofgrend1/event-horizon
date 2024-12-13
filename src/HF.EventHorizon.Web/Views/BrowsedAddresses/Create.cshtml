@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Create</h1>
@@ -15,7 +14,10 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ProtocolConnectionId" class="control-label"></label>
-                <select asp-for="ProtocolConnectionId" class ="form-control" asp-items="ViewBag.ProtocolConnectionId"></select>
+                <div class="input-group">
+                    <select asp-for="ProtocolConnectionId" class="form-control" asp-items="ViewBag.ProtocolConnectionId"></select>
+                    <button type="button" class="btn btn-secondary" id="openCreateProtocolConnectionModal">+</button>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
@@ -43,6 +45,74 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<!-- Modal for creating a new ProtocolConnection -->
+<div class="modal fade" id="createProtocolConnectionModal" tabindex="-1" aria-labelledby="createProtocolConnectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createProtocolConnectionModalLabel">Create Protocol Connection</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="createProtocolConnectionModalBody">
+                <!-- Content will be loaded here via AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            // Open the modal and load the content via AJAX
+            $('#openCreateProtocolConnectionModal').click(function () {
+                $.ajax({
+                    url: '@Url.Action("Create", "ProtocolConnections")',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#createProtocolConnectionModalBody').html(data);
+                        $('#createProtocolConnectionModal').modal('show');
+                    }
+                });
+            });
+
+            // Handle form submission inside the modal
+            $(document).on('submit', '#createProtocolConnectionModal form', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    url: form.attr('action'),
+                    type: form.attr('method'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        if ($(response).find('.validation-summary-errors').length === 0) {
+                            $('#createProtocolConnectionModal').modal('hide');
+                            refreshProtocolConnectionDropdown();
+                        } else {
+                            $('#createProtocolConnectionModalBody').html(response);
+                        }
+                    }
+                });
+            });
+
+            // Refresh the ProtocolConnectionId dropdown list
+            function refreshProtocolConnectionDropdown() {
+                $.ajax({
+                    url: '@Url.Action("GetProtocolConnections", "BrowsedAddresses")',
+                    type: 'GET',
+                    success: function (data) {
+                        var dropdown = $('#ProtocolConnectionId');
+                        dropdown.empty();
+                        $.each(data, function (i, item) {
+                            dropdown.append($('<option>', {
+                                value: item.value,
+                                text: item.text
+                            }));
+                        });
+                    }
+                });
+            }
+        });
+    </script>
 }
+

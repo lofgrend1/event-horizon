@@ -159,6 +159,14 @@ public class DestinationMapsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    public async Task<IActionResult> GetProtocolConnections()
+    {
+        var protocolConnections = await _context.ProtocolConnections
+            .Select(pc => new { value = pc.Id, text = pc.Name })
+            .ToListAsync();
+        return Json(protocolConnections);
+    }
+
     private bool DestinationMapExists(int id)
     {
         return _context.DestinationMaps.Any(e => e.Id == id);

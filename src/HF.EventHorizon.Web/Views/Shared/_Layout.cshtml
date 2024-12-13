@@ -1,5 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,6 +7,17 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HF.EventHorizon.Web.styles.css" asp-append-version="true" />
+    <style>
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -25,6 +35,54 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <!-- Grouped controller dropdown menu -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="controllersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Controllers
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="controllersDropdown">
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">BrowsedAddresses</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="BrowsedAddresses" asp-action="Index">Index</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="BrowsedAddresses" asp-action="Create">Create</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="BrowsedAddresses" asp-action="Details">Details</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">DestinationMaps</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="DestinationMaps" asp-action="Index">Index</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="DestinationMaps" asp-action="Create">Create</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="DestinationMaps" asp-action="Details">Details</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">ProtocolConnections</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="ProtocolConnections" asp-action="Index">Index</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="ProtocolConnections" asp-action="Create">Create</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="ProtocolConnections" asp-action="Details">Details</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">ProtocolPlugins</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="ProtocolPlugins" asp-action="Index">Index</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="ProtocolPlugins" asp-action="Create">Create</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="ProtocolPlugins" asp-action="Details">Details</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">RoutingRules</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="RoutingRules" asp-action="Index">Index</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="RoutingRules" asp-action="Create">Create</a></li>
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="RoutingRules" asp-action="Details">Details</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -46,6 +104,22 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Custom JavaScript to handle nested dropdowns
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdowns = document.querySelectorAll('.dropdown-submenu .dropdown-toggle');
+            dropdowns.forEach(function (dropdown) {
+                dropdown.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var submenu = this.nextElementSibling;
+                    if (submenu) {
+                        submenu.classList.toggle('show');
+                    }
+                });
+            });
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
