@@ -5,6 +5,8 @@ using Serilog;
 using HF.EventHorizon.Infrastructure.Data;
 using HF.EventHorizon.Web.Data;
 using HF.EventHorizon.App;
+using MySql.EntityFrameworkCore.Extensions;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace HF.EventHorizon.Web;
 
@@ -32,7 +34,21 @@ public class Program
 
         // Add Home Manager Core Database Context
         builder.Services.AddDbContext<EvtHorizonContext>(options =>
-            options.UseSqlServer(connectionString));
+        {
+            var dbType = builder.Configuration.GetValue<string>("DatabaseType");
+            switch (dbType)
+            {
+                case "MySQL":
+                    options.UseMySQL(connectionString);
+                    break;
+                case "PostgreSQL":
+                    options.UseNpgsql(connectionString);
+                    break;
+                default:
+                    options.UseSqlServer(connectionString);
+                    break;
+            }
+        });
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
