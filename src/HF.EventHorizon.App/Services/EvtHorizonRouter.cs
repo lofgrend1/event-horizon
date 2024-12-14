@@ -62,6 +62,9 @@ public class EvtHorizonRouter
 
                 foreach (var route in _routingRules[routingKey])
                 {
+                    if (route.Destination == null)
+                        throw new InvalidOperationException($"Destination is null for route with address: {route.Address}");
+
                     route.Destination.Publish(route.Address, data);
                 }
             }
@@ -73,6 +76,10 @@ public class EvtHorizonRouter
         catch (KeyNotFoundException ex)
         {
             _logger.LogError(ex, $"Routing key not found: {routingKey}");
+        }
+        catch (InvalidOperationException ex)
+        {
+            _logger.LogError(ex, ex.Message);
         }
     }
 
@@ -111,9 +118,16 @@ public class EvtHorizonRouter
 
                 foreach (var route in _routingRules[routingKey])
                 {
-                    _logger.LogDebug($"[DEBUG] Sending data: {data} to destination: {route.Destination} with address: {route.Address}");
-                    await route.Destination.PublishAsync(route.Address, data);
-                    _logger.LogDebug($"[DEBUG] Data sent successfully to destination: {route.Destination} with address: {route.Address}");
+                    if (route.Destination != null)
+                    {
+                        _logger.LogDebug($"[DEBUG] Sending data: {data} to destination: {route.Destination} with address: {route.Address}");
+                        await route.Destination.PublishAsync(route.Address, data);
+                        _logger.LogDebug($"[DEBUG] Data sent successfully to destination: {route.Destination} with address: {route.Address}");
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Destination is null for route with address: {route.Address}");
+                    }
                 }
             }
             else
