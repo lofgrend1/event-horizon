@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua" Version="1.5.374.158" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Client" Version="1.5.374.158" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Configuration" Version="1.5.374.158" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.374.158" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <OpcUaFoundationFiles Include="$(NuGetPackageRoot)opcfoundation.netstandard.opc.ua*\1.4.371.91\lib\net6.0\**\*.dll" />
+      <OutputFiles Include="$(OutDir)*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(OpcUaFoundationFiles)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="false" />
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\HF.EventHorizon.Core\HF.EventHorizon.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="opcua.config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="XCOPY &quot;$(OutDir)*.*&quot; &quot;..\..\binaries\opcua&quot; /S /Y" />
+  </Target>
+
+</Project>

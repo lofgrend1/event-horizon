@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="libplctag" Version="1.5.2" />
+    <PackageReference Include="libplctag.NativeImport" Version="1.0.41" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\HF.EventHorizon.Core\HF.EventHorizon.Core.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <LibPlcTagFiles Include="$(NuGetPackageRoot)libplctag\1.1.1\lib\netstandard2.0\*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(LibPlcTagFiles)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="false" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="XCOPY &quot;$(OutDir)*.*&quot; &quot;..\..\binaries\ethernetip&quot; /S /Y" />
+  </Target>
+
+</Project>
