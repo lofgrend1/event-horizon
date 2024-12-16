@@ -18,15 +18,16 @@ namespace HF.EventHorizon.Mqtt;
 public class MqttPlugin : IProtocolPlugin, IDestination, ISubscribable
 {
     #region Fields
-    private IMqttClient _client;                         // MQTT client instance
-    private MqttClientOptions _options;                  // MQTT client options for connection configuration
-    private string _connectionString;                    // MQTT broker connection string
-    private Dictionary<string, string> _additionalParameters;   // Additional parameters for connection
+    private IMqttClient _client = null!;                         // MQTT client instance
+    private MqttClientOptions _options = null!;                  // MQTT client options for connection configuration
+    private string _connectionString = null!;                    // MQTT broker connection string
+    private Dictionary<string, string> _additionalParameters = [];   // Additional parameters for connection
+
     #endregion
 
     #region Properties
     public bool IsConnected => _client?.IsConnected ?? false;   // Property indicating whether the client is connected
-    public string PluginId { get; set; }
+    public string PluginId { get; set; } = null!;                // Plugin ID
 
     public string[] RequiredParameters => new string[]
     {
@@ -37,9 +38,9 @@ public class MqttPlugin : IProtocolPlugin, IDestination, ISubscribable
     #endregion
 
     #region Events
-    public event EventHandler<EvtHorizonDataReceivedEventArgs> DataReceived;   // Event triggered when data is received
-    public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;   // Event triggered when connection state changes
-    public event EventHandler<EvtHorizonErrorEventArgs> Error;   // Event triggered when an error occurs
+    public event EventHandler<EvtHorizonDataReceivedEventArgs> DataReceived = delegate { };             // Event triggered when data is received
+    public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged = delegate { };   // Event triggered when connection state changes
+    public event EventHandler<EvtHorizonErrorEventArgs> Error = delegate { };                           // Event triggered when an error occurs
     #endregion
 
     #region Public Methods
@@ -253,7 +254,6 @@ public class MqttPlugin : IProtocolPlugin, IDestination, ISubscribable
 
         // Dispose of the client.
         _client?.Dispose();
-        _client = null;
     }
 
     #endregion
@@ -275,7 +275,7 @@ public class MqttPlugin : IProtocolPlugin, IDestination, ISubscribable
     {
         Console.WriteLine("Received application message.");
 
-        var message = Encoding.UTF8.GetString(arg.ApplicationMessage.Payload);
+        var message = Encoding.UTF8.GetString(arg.ApplicationMessage.PayloadSegment);
         DataReceived?.Invoke(this, new EvtHorizonDataReceivedEventArgs(arg.ApplicationMessage.Topic, Encoding.UTF8.GetBytes(message)));
 
         // Now the broker will resend the message again.
