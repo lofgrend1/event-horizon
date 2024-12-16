@@ -23,8 +23,13 @@
     <Copy SourceFiles="@(LibPlcTagFiles)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="false" />
   </Target>
 
+  <Target Name="CreateOutputDirectory" BeforeTargets="PostBuildEvent">
+    <MakeDir Directories="$(SolutionDir)..\binaries\ethernetip" />
+  </Target>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="XCOPY &quot;$(OutDir)*.*&quot; &quot;..\..\binaries\ethernetip&quot; /S /Y" />
+    <Exec Command="XCOPY &quot;$(OutDir)*.*&quot; &quot;$(SolutionDir)..\binaries\ethernetip&quot; /S /Y /I" />
   </Target>
 
 </Project>
+

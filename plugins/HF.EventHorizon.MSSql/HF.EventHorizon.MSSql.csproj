@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <Target Name="CreateOutputDirectory" BeforeTargets="PostBuildEvent">
+    <MakeDir Directories="$(SolutionDir)..\binaries\mssql" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="XCOPY &quot;$(OutDir)*.*&quot; &quot;$(SolutionDir)..\binaries\mssql&quot; /S /Y /I" />
+  </Target>
+
 </Project>
+

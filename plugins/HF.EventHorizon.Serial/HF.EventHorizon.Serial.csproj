@@ -15,8 +15,14 @@
     <ProjectReference Include="..\..\src\HF.EventHorizon.Core\HF.EventHorizon.Core.csproj" />
   </ItemGroup>
 
+  <Target Name="CreateOutputDirectory" BeforeTargets="PostBuildEvent">
+    <MakeDir Directories="$(SolutionDir)..\binaries\serial" />
+  </Target>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="XCOPY &quot;$(OutDir)*.*&quot; &quot;..\..\binaries\serial&quot; /S /Y" />
+    <Exec Command="XCOPY &quot;$(OutDir)*.*&quot; &quot;$(SolutionDir)..\binaries\serial&quot; /S /Y /I" />
   </Target>
 
 </Project>
+
+

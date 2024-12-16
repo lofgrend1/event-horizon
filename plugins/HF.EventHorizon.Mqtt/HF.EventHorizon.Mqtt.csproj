@@ -25,9 +25,12 @@
     <Copy SourceFiles="@(MQTTNetFiles)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="false" />
   </Target>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="XCOPY &quot;$(OutDir)*.*&quot; &quot;..\..\binaries\mqtt&quot; /S /Y" />
+  <Target Name="CreateOutputDirectory" BeforeTargets="PostBuildEvent">
+    <MakeDir Directories="$(SolutionDir)..\binaries\mqtt" />
   </Target>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="XCOPY &quot;$(OutDir)*.*&quot; &quot;$(SolutionDir)..\binaries\mqtt&quot; /S /Y /I" />
+  </Target>
 
 </Project>
